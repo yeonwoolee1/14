@@ -10,21 +10,26 @@ struct Book{
 };
 
 int main(int argc, char *argv[]) {
-	struct Book*p;
+	int i;
+	struct Book**bookshelf;
 	
-	p=(struct Book*)malloc(2*sizeof(struct Book));
+	bookshelf=(struct Book**)malloc(3*sizeof(struct Book*));
+	for(i=0;i<3;i++)
+		bookshelf[i]=(struct Book*)malloc(10*sizeof(struct Book));
 
-	if(p==NULL){
-		printf("error\n");
-		return;	
-	}
+	bookshelf[1][3].number=5; 
+	strcpy(bookshelf[1][3].title,"C++ Programming"); 
 	
-	p->number=1;
-	strcpy(p->title,"C Programming");
+	(bookshelf[2]+4)->number=3; 
+	strcpy((bookshelf[2]+4)->title,"Communications Theory"); 
 	
-	(p+1)->number=2; 
-	strcpy((p+1)->title, "Electronics");
+	printf("book (1,3) : %i, %s\n", (bookshelf[1]+3)->number, (bookshelf[1]+3)->title); 
+	printf("book (2,4) : %i, %s\n", bookshelf[2][4].number, bookshelf[2][4].title);
 	
-	free(p);
+	for (i=0;i<3;i++) 
+		free(bookshelf[i]); //구조체 포인터 3개가 각각 가리키는 주소 해제 
+		
+	free(bookshelf);  //구조체 이중포인터가 가리키는 주소 해제. 
+
 	return;
 }
